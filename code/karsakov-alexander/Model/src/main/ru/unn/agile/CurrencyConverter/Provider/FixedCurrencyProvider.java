@@ -1,4 +1,6 @@
-package ru.unn.agile.CurrencyConverter.Model;
+package ru.unn.agile.CurrencyConverter.Provider;
+
+import ru.unn.agile.CurrencyConverter.Model.Currency;
 
 import static ru.unn.agile.CurrencyConverter.Model.CurrencyIndexes.*;
 

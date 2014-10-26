@@ -1,7 +1,9 @@
-package ru.unn.agile.CurrencyConverter.Model;
+package ru.unn.agile.CurrencyConverter.Provider;
 
 import org.junit.Before;
 import org.junit.Test;
+import ru.unn.agile.CurrencyConverter.Model.Currency;
+
 import static org.junit.Assert.*;
 import static ru.unn.agile.CurrencyConverter.Model.CurrencyIndexes.*;
 
