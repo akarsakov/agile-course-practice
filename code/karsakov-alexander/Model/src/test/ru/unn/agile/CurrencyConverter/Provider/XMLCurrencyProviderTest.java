@@ -1,47 +1,39 @@
 package ru.unn.agile.CurrencyConverter.Provider;
 
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import ru.unn.agile.CurrencyConverter.Model.Currency;
-
 import static org.junit.Assert.*;
 import static ru.unn.agile.CurrencyConverter.Model.CurrencyIndexes.*;
+import static ru.unn.agile.CurrencyConverter.Provider.FixedCurrencyProviderTest.*;
 
-public class FixedCurrencyProviderTest {
+public class XMLCurrencyProviderTest extends FixedCurrencyProvider {
     private ICurrencyProvider provider;
-
-    public static boolean checkCurrencyListContainsSpecificNumCode(final Currency[] currencyList,
-                                                                    final int numCode) {
-        for (final Currency currency : currencyList) {
-            if (currency.getNumCode() == numCode) {
-                return true;
-            }
-        }
-        return false;
-    }
+    private final String fileWithCorrectXML = "correct_currency.xml";
+    private final String fileWithIncorrectXML = "incorrect_currency.xml";
 
     @Before
     public void init() {
-        provider = new FixedCurrencyProvider();
+        IXMLSource source = new File_XMLSource(fileWithCorrectXML);
+        provider = new XMLCurrencyProvider.Builder().XMLSource(source).build();
     }
 
     @Test
-    public void fixedCurrencyProviderReturnsNotEmptyList() {
+    public void xmlCurrencyProviderReturnsNotEmptyList() {
         Currency[] currencyList = provider.getActualCurrency();
 
         assertTrue(currencyList.length > 0);
     }
 
     @Test
-    public void fixedCurrencyProviderReturnsAtLeastThreeCurrency() {
+    public void xmlCurrencyProviderReturnsAtLeastThreeCurrency() {
         Currency[] currencyList = provider.getActualCurrency();
 
         assertTrue(currencyList.length >= 3);
     }
 
     @Test
-    public void fixedCurrencyProviderReturnsRequiredCurrency() {
+    public void xmlCurrencyProviderReturnsRequiredCurrency() {
         Currency[] currencyList = provider.getActualCurrency();
 
         assertTrue(checkCurrencyListContainsSpecificNumCode(currencyList, USD.getNumCode()));
@@ -50,7 +42,7 @@ public class FixedCurrencyProviderTest {
     }
 
     @Test
-    public void fixedCurrencyProviderReturnsUniqueCurrency() {
+    public void xmlCurrencyProviderReturnsUniqueCurrency() {
         Currency[] currencyList = provider.getActualCurrency();
 
         for (int i = 0; i < currencyList.length; i++) {
@@ -61,4 +53,10 @@ public class FixedCurrencyProviderTest {
             }
         }
     }
+
+    //@Test(expected = RuntimeException.class)
+    //public void xmlCurrencyProviderThrowsExceptionOnIncorrectXML() {
+    //    IXMLSource incorrectSource = new File_XMLSource(fileWithIncorrectXML);
+    //    new XMLCurrencyProvider.Builder().XMLSource(incorrectSource).build();
+    //}
 }
