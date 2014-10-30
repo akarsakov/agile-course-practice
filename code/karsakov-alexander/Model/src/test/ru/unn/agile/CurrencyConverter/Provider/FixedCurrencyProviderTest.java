@@ -28,6 +28,13 @@ public class FixedCurrencyProviderTest {
     }
 
     @Test
+    public void fixedCurrencyProviderReturnsNotNullList() {
+        ArrayList<Currency> currencyRates = provider.getActualCurrencyRates();
+
+        assertTrue(currencyRates != null);
+    }
+
+    @Test
     public void fixedCurrencyProviderReturnsNotEmptyList() {
         ArrayList<Currency> currencyRates = provider.getActualCurrencyRates();
 

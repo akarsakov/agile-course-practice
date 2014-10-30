@@ -11,6 +11,7 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.xml.sax.SAXException;
 import ru.unn.agile.CurrencyConverter.Model.Currency;
+import ru.unn.agile.CurrencyConverter.Model.CurrencyIndex;
 
 public class XMLCurrencyProvider implements ICurrencyProvider {
     private IXMLSource source;
@@ -51,23 +52,29 @@ public class XMLCurrencyProvider implements ICurrencyProvider {
 
                     int numCode = Integer.parseInt(
                             eElement.getElementsByTagName("NumCode").item(0).getTextContent());
-                    String charCode =
-                            eElement.getElementsByTagName("CharCode").item(0).getTextContent();
-                    int nominal = Integer.parseInt(
-                            eElement.getElementsByTagName("Nominal").item(0).getTextContent());
-                    String name =
-                            eElement.getElementsByTagName("Name").item(0).getTextContent();
-                    double value = Double.parseDouble(
-                            eElement.getElementsByTagName("Nominal").item(0).getTextContent());
 
-                    actualCurrency.add(Currency.builder().numCode(numCode).charCode(charCode)
-                                               .name(name).nominal(nominal).value(value).build());
+                    CurrencyIndex index = CurrencyIndex.getCurrencyIndexByNumCode(numCode);
+                    if (index != null) {
+                        String charCode =
+                                eElement.getElementsByTagName("CharCode").item(0).getTextContent();
+                        int nominal = Integer.parseInt(
+                                eElement.getElementsByTagName("Nominal").item(0).getTextContent());
+                        String name =
+                                eElement.getElementsByTagName("Name").item(0).getTextContent();
+                        double value = Double.parseDouble(
+                                eElement.getElementsByTagName("Nominal").item(0).getTextContent());
+
+                        actualCurrency.add(index.getIndex(),
+                                           Currency.builder().numCode(numCode).charCode(charCode)
+                                                   .name(name).nominal(nominal).value(value).build());
+                    }
                 }
             }
 
         // RUB currency doesn't contains in XML, let's add it by hand
-        actualCurrency.add(Currency.builder().numCode(1).charCode("RUB").name("Российский рубль")
-                                   .nominal(1).value(1).build());
+        actualCurrency.add(CurrencyIndex.RUB.getIndex(),
+                           Currency.builder().numCode(1).charCode("RUB").name("Российский рубль")
+                           .nominal(1).value(1).build());
 
         return actualCurrency;
     }

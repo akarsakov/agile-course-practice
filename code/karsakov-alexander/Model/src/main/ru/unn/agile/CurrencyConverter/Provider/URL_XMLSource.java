@@ -11,6 +11,9 @@ public class URL_XMLSource implements IXMLSource {
         if (url == null) {
             throw new IllegalArgumentException("url can't be null");
         }
+        if (url.isEmpty()) {
+            throw new IllegalArgumentException("url can't be empty");
+        }
 
         this.url = url;
     }
