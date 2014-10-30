@@ -7,7 +7,7 @@ import ru.unn.agile.CurrencyConverter.Provider.ICurrencyProvider;
 
 import java.util.ArrayList;
 
-import static ru.unn.agile.CurrencyConverter.Model.CurrencyIndexes.*;
+import static ru.unn.agile.CurrencyConverter.Model.CurrencyIndex.*;
 import static org.junit.Assert.*;
 
 public class MoneyTest {

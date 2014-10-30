@@ -1,12 +1,15 @@
 package ru.unn.agile.CurrencyConverter.Provider;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.List;
 
 import org.w3c.dom.*;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.xml.sax.SAXException;
 import ru.unn.agile.CurrencyConverter.Model.Currency;
 
 public class XMLCurrencyProvider implements ICurrencyProvider {
@@ -28,12 +31,17 @@ public class XMLCurrencyProvider implements ICurrencyProvider {
     public final ArrayList<Currency> getActualCurrencyRates() {
         ArrayList<Currency> actualCurrency = new ArrayList<Currency>();
 
+        Document doc;
         try {
             DocumentBuilder db = DocumentBuilderFactory.newInstance().newDocumentBuilder();
             InputStream is = source.getXML();
-            Document doc = db.parse(is);
+            doc = db.parse(is);
+        } catch (ParserConfigurationException | SAXException | IOException e) {
+            e.printStackTrace();
+            return actualCurrency;
+        }
 
-            NodeList nList = doc.getElementsByTagName("Valute");
+        NodeList nList = doc.getElementsByTagName("Valute");
 
             for (int i = 0; i < nList.getLength(); i++) {
                 Node nNode = nList.item(i);
@@ -56,9 +64,7 @@ public class XMLCurrencyProvider implements ICurrencyProvider {
                                                .name(name).nominal(nominal).value(value).build());
                 }
             }
-        } catch (Exception ex) {
-            throw new RuntimeException("Can't get actual courses from current transport");
-        }
+
         // RUB currency doesn't contains in XML, let's add it by hand
         actualCurrency.add(Currency.builder().numCode(1).charCode("RUB").name("Российский рубль")
                                    .nominal(1).value(1).build());

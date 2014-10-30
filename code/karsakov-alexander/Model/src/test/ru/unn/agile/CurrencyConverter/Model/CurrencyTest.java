@@ -8,8 +8,8 @@ import ru.unn.agile.CurrencyConverter.Provider.ICurrencyProvider;
 import java.util.ArrayList;
 
 import static org.junit.Assert.*;
-import static ru.unn.agile.CurrencyConverter.Model.CurrencyIndexes.EUR;
-import static ru.unn.agile.CurrencyConverter.Model.CurrencyIndexes.USD;
+import static ru.unn.agile.CurrencyConverter.Model.CurrencyIndex.EUR;
+import static ru.unn.agile.CurrencyConverter.Model.CurrencyIndex.USD;
 
 public class CurrencyTest {
     private ArrayList<Currency> validCurrencies;

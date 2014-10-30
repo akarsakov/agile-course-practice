@@ -3,7 +3,7 @@ package ru.unn.agile.CurrencyConverter.Provider;
 import org.junit.Before;
 import org.junit.Test;
 import ru.unn.agile.CurrencyConverter.Model.Currency;
-import ru.unn.agile.CurrencyConverter.Model.CurrencyIndexes;
+import ru.unn.agile.CurrencyConverter.Model.CurrencyIndex;
 
 import java.util.ArrayList;
 
@@ -45,7 +45,7 @@ public class FixedCurrencyProviderTest {
     public void fixedCurrencyProviderReturnsRequiredCurrency() {
         ArrayList<Currency> currencyRates = provider.getActualCurrencyRates();
 
-        for (CurrencyIndexes index : CurrencyIndexes.values()) {
+        for (CurrencyIndex index : CurrencyIndex.values()) {
             assertTrue(checkCurrencyRatesContainsNumCode(currencyRates, index.getNumCode()));
         }
     }
